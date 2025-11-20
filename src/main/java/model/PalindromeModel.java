@@ -22,13 +22,15 @@ public class PalindromeModel {
      * Constructs a new PalindromeModel instance.
      */
     public PalindromeModel() {
+        this.differences = new ArrayList<>();
+        this.status = AnalysisStatus.EMPTY;
     }
     
     /** The normalized input string currently being analyzed. */
     private String input;
     
-    /** Flag indicating whether the analyzed string is a palindrome. */
-    private boolean isPalindrome = true;
+    /** Enum indicating whether the analyzed string is a palindrome. */
+    private AnalysisStatus status;
     
      /** List storing strings detailing the position and characters of mismatches found */
     private ArrayList<Mismatch> differences = new ArrayList<>();
@@ -44,9 +46,9 @@ public class PalindromeModel {
         
         // set default
         this.differences.clear(); 
-        this.isPalindrome = true;
         
         if (input == null || input.isEmpty()) {
+            this.status = AnalysisStatus.EMPTY;
             throw new EmptyInputException("Cannot analyze an empty string...");
         }
         
@@ -61,8 +63,12 @@ public class PalindromeModel {
                 char char2 = input.charAt(input.length() - i - 1);
                 
                 this.differences.add(new Mismatch(pos1, char1, pos2, char2));
-                this.isPalindrome = false;
             }
+        }
+        if (this.differences.isEmpty()) {
+            this.status = AnalysisStatus.PALINDROME;
+        } else {
+            this.status = AnalysisStatus.NOT_PALINDROME;
         }
     }
 }

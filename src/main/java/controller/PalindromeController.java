@@ -5,13 +5,13 @@ import model.EmptyInputException;
 import model.PalindromeModel;
 import view.PalindromeView;
 import model.Mismatch;
+import model.AnalysisStatus;
 
 // gui
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The PalindromeController class acts as the Controller in the MVC architecture.
@@ -92,29 +92,36 @@ private void performAnalysis(String rawInput) {
         try {
             model.analyze(input);
 
-            boolean isPalindrome = model.isPalindrome();
+            AnalysisStatus status = model.getStatus();
             
             String statusText = "'" + input + "' (length:: " + input.length() + ")";
             
-            if (isPalindrome) {
-                view.setStatusText(statusText + " IS palindrome.");
-                view.showTable(false);
-            } else {
-                view.setStatusText(statusText + " IS NOT palindromem. Differs:");
+            switch (status) {
+                case PALINDROME:
+                    view.setStatusText(statusText + " IS palindrome.");
+                    view.showTable(false); 
+                    break;
                 
-                ArrayList<Mismatch> differences = model.getDifferences();
+                case NOT_PALINDROME:
+                    view.setStatusText(statusText + " IS NOT palindrome. Differs:");
+                    
+                    List<Mismatch> differences = model.getDifferences();
+                    
+                    differences.stream()
+                        .map(mismatch -> new Object[] {
+                            mismatch.pos1(),
+                            mismatch.char1(),
+                            mismatch.pos2(),
+                            mismatch.char2()
+                        })
+                        .forEach(tableModel::addRow);
+                    
+                    view.showTable(true); 
+                    break;
                 
-                for (Mismatch mismatch : differences) {
-                    Object[] rowData = {
-                        mismatch.pos1(),
-                        mismatch.char1(),
-                        mismatch.pos2(),
-                        mismatch.char2()
-                    };
-                    tableModel.addRow(rowData);
-                }
-                
-                view.showTable(true);
+                case EMPTY:
+                    view.setStatusText("Empty string.");
+                    break;
             }
 
         } catch (EmptyInputException ex) {
