@@ -3,6 +3,7 @@ package model;
 
 // used imports in this file
 import java.util.ArrayList;
+import model.Mismatch;
 
 /**
  * Model class in Palindrome app. 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  * It stores the analysis results (state) and provides accessors (getters, setters) 
  * for the Controller and View.
  * 
- * @version 1.1
+ * @version 1.2
  * @author Jakub Tomaszewski
  */
 public class PalindromeModel {    
@@ -28,7 +29,7 @@ public class PalindromeModel {
     private boolean isPalindrome = true;
     
      /** List storing strings detailing the position and characters of mismatches found */
-    private ArrayList<String> differences = new ArrayList<>();
+    private ArrayList<Mismatch> differences = new ArrayList<>();
     
     /**
      * Executes the palindrome analysis on the given string.
@@ -52,9 +53,12 @@ public class PalindromeModel {
         // check for differences
         for (int i=0; i<input.length()/2; i++){
             if (input.charAt(i) != input.charAt(input.length()-i-1)){
-                // store result (difference) as data for the View
-                String diff = "character " + (i + 1) + " ('" + input.charAt(i) + "')" + " differs from character " + (input.length() - i) + " ('" + input.charAt((input.length() - i - 1)) + "').";
-                this.differences.add(diff);
+                int pos1 = i + 1;
+                char char1 = input.charAt(i);
+                int pos2 = input.length() - i;
+                char char2 = input.charAt(input.length() - i - 1);
+                
+                this.differences.add(new Mismatch(pos1, char1, pos2, char2));
                 this.isPalindrome = false;
             }
         }
@@ -80,7 +84,7 @@ public class PalindromeModel {
      * Retrieves the list of found differences.
      * @return A list of strings detailing character mismatches.
      */
-    public ArrayList<String> getDifferences() {
+    public ArrayList<Mismatch> getDifferences() {
         return this.differences;
     }
 }
