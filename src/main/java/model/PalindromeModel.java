@@ -3,7 +3,7 @@ package model;
 
 // used imports in this file
 import java.util.ArrayList;
-import model.Mismatch;
+import lombok.*;
 
 /**
  * Model class in Palindrome app. 
@@ -14,6 +14,8 @@ import model.Mismatch;
  * @version 1.2
  * @author Jakub Tomaszewski
  */
+@Getter
+@Setter
 public class PalindromeModel {    
     
     /**
@@ -62,29 +64,5 @@ public class PalindromeModel {
                 this.isPalindrome = false;
             }
         }
-    }
-    
-    /**
-     * Retrieves the input string stored in the Model.
-     * @return The stored normalized input string.
-     */
-    public String getInput(){
-        return this.input;
-    }
-    
-    /**
-     * Retrieves the result of the palindrome analysis.
-     * @return True if the string is a palindrome, false otherwise.
-     */
-    public boolean getIsPalindrome() {
-        return this.isPalindrome;
-    }
-
-    /**
-     * Retrieves the list of found differences.
-     * @return A list of strings detailing character mismatches.
-     */
-    public ArrayList<Mismatch> getDifferences() {
-        return this.differences;
     }
 }

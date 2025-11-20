@@ -92,7 +92,7 @@ private void performAnalysis(String rawInput) {
         try {
             model.analyze(input);
 
-            boolean isPalindrome = model.getIsPalindrome();
+            boolean isPalindrome = model.isPalindrome();
             
             String statusText = "'" + input + "' (length:: " + input.length() + ")";
             
@@ -106,10 +106,10 @@ private void performAnalysis(String rawInput) {
                 
                 for (Mismatch mismatch : differences) {
                     Object[] rowData = {
-                        mismatch.getPos1(),
-                        mismatch.getChar1(),
-                        mismatch.getPos2(),
-                        mismatch.getChar2()
+                        mismatch.pos1(),
+                        mismatch.char1(),
+                        mismatch.pos2(),
+                        mismatch.char2()
                     };
                     tableModel.addRow(rowData);
                 }
