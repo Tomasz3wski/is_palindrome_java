@@ -1,0 +1,21 @@
+# NetBeans
+target/
+nbproject/private/
+build/
+dist/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
